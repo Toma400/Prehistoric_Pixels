@@ -15,6 +15,7 @@ import net.prehistoric_pixels.core.PrehistoricPixelsBlocks;
 import net.prehistoric_pixels.core.PrehistoricPixelsItems;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import software.bernie.geckolib3.GeckoLib;
 
 import java.util.Map;
 
@@ -44,16 +45,7 @@ public class PrehistoricPixels
     }
 
     private void setup(final FMLCommonSetupEvent event) {
-    //    event.enqueueWork(() -> {
-    //        AxeItem.STRIPPABLES = new ImmutableMap.Builder<Block, Block>().putAll(AxeItem.STRIPPABLES)
-    //                .put(PrehistoricPixelsBlocks.RUSTED_METAL_BLOCK.get(), PrehistoricPixelsBlocks.HALF_RUSTED_METAL_BLOCK.get())
-    //                .put(PrehistoricPixelsBlocks.HALF_RUSTED_METAL_BLOCK.get(), PrehistoricPixelsBlocks.SLIGHTLY_RUSTED_METAL_BLOCK.get())
-    //                .put(PrehistoricPixelsBlocks.SLIGHTLY_RUSTED_METAL_BLOCK.get(), PrehistoricPixelsBlocks.BLOCK_OF_METAL.get())
-    //                .put(PrehistoricPixelsBlocks.WAXED_BLOCK_OF_METAL.get(), PrehistoricPixelsBlocks.BLOCK_OF_METAL.get())
-    //                .put(PrehistoricPixelsBlocks.WAXED_SLIGHTLY_RUSTED_METAL_BLOCK.get(), PrehistoricPixelsBlocks.SLIGHTLY_RUSTED_METAL_BLOCK.get())
-    //                .put(PrehistoricPixelsBlocks.WAXED_HALF_RUSTED_METAL_BLOCK.get(), PrehistoricPixelsBlocks.HALF_RUSTED_METAL_BLOCK.get());
-    //            }
-    //    );
+        GeckoLib.initialize();
     }
 
 }
