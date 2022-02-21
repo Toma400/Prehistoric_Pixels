@@ -1,0 +1,24 @@
+{
+  "replace": false,
+  "values": [
+    "prehistoric_pixels:block_of_raw_metal",
+    "prehistoric_pixels:block_of_metal",
+    "prehistoric_pixels:slightly_rusted_metal_block",
+    "prehistoric_pixels:half_rusted_metal_block",
+    "prehistoric_pixels:rusted_metal_block",
+    "prehistoric_pixels:waxed_block_of_metal",
+    "prehistoric_pixels:waxed_slightly_rusted_metal_block",
+    "prehistoric_pixels:waxed_half_rusted_metal_block",
+    "prehistoric_pixels:deepslate_metal_ore",
+    "prehistoric_pixels:metal_ore",
+    "prehistoric_pixels:metal_bars",
+    "prehistoric_pixels:metal_button",
+    "prehistoric_pixels:metal_pressure_plate",
+    "prehistoric_pixels:metal_trapdoor",
+    "prehistoric_pixels:metal_door",
+    "prehistoric_pixels:metal_lamp",
+    "prehistoric_pixels:deepslate_exposed_fossil",
+    "prehistoric_pixels:exposed_fossil",
+    "prehistoric_pixels:pile_of_fossils"
+  ]
+}

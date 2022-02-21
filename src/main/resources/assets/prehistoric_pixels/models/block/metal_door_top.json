@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/door_top",
+  "textures": {
+    "top": "prehistoric_pixels:block/metal_door_top",
+    "bottom": "prehistoric_pixels:block/metal_door_bottom"
+  }
+}

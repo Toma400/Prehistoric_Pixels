@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "pile_of_fossils",
+  "pattern": [
+    "RRR",
+    "RRR",
+    "RRR"
+  ],
+  "key": {
+    "R": {
+      "item": "prehistoric_pixels:fossil"
+    }
+  },
+  "result": {
+    "item": "prehistoric_pixels:pile_of_fossils"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "metal_button",
+  "ingredients": [
+    {
+      "item": "prehistoric_pixels:metal_ingot"
+    }
+  ],
+  "result": {
+    "item": "prehistoric_pixels:metal_button"
+  }
+}

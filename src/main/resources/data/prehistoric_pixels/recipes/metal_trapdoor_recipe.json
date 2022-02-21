@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "block_of_metal",
+  "pattern": [
+    "   ",
+    "RR ",
+    "RR "
+  ],
+  "key": {
+    "R": {
+      "item": "prehistoric_pixels:metal_ingot"
+    }
+  },
+  "result": {
+    "item": "prehistoric_pixels:metal_trapdoor",
+    "count": 1
+  }
+}

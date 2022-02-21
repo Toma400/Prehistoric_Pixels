@@ -1,0 +1,14 @@
+todo:
+
+* rustification of metal blocks
+* door dropping itself in creative
+* pressure plate weirdly having no texture as a block (!!!!!! ask Kaupenjoe wtf is going on)
+* loot tables of fossils (exposed + deepslate exposed)
+
+For today:
+* Change for rusting metal names
+
+* Rusting stages are broken
+* No particles during waxingOff
+
+* Blockstate-based waxing (registry for the blockstates)

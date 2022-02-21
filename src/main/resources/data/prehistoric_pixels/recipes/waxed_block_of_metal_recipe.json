@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "metal_blocks_waxed",
+  "ingredients": [
+    {
+      "item": "prehistoric_pixels:block_of_metal"
+    },
+    {
+      "item": "minecraft:honeycomb"
+    }
+  ],
+  "result": {
+    "item": "prehistoric_pixels:waxed_block_of_metal",
+    "count": 1
+  }
+}

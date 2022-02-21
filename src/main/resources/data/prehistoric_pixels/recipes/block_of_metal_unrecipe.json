@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "metal_ingot",
+  "ingredients": [
+    {
+      "item": "prehistoric_pixels:block_of_metal"
+    }
+  ],
+  "result": {
+    "item": "prehistoric_pixels:metal_ingot",
+    "count": 9
+  }
+}

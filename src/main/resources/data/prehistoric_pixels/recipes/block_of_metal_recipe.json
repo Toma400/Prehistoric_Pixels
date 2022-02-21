@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "block_of_metal",
+  "pattern": [
+    "RRR",
+    "RRR",
+    "RRR"
+  ],
+  "key": {
+    "R": {
+      "item": "prehistoric_pixels:metal_ingot"
+    }
+  },
+  "result": {
+    "item": "prehistoric_pixels:block_of_metal"
+  }
+}

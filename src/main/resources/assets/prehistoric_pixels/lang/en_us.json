@@ -1,0 +1,32 @@
+{
+  "item.prehistoric_pixels.raw_metal": "Raw Metal",
+  "item.prehistoric_pixels.metal_ingot": "Metal Ingot",
+  "item.prehistoric_pixels.fossil": "Fossil",
+  "item.prehistoric_pixels.smilodon_fossil": "Smilodon Fossil",
+  "item.prehistoric_pixels.stegosaurus_fossil": "Stegosaurus Fossil",
+  "item.prehistoric_pixels.plant_fossil": "Plant Fossil",
+  "item.prehistoric_pixels.cordaites_fossil": "Cordaites Fossil",
+
+  "block.prehistoric_pixels.block_of_raw_metal": "Block of Raw Metal",
+  "block.prehistoric_pixels.block_of_metal": "Block of Metal",
+  "block.prehistoric_pixels.slightly_rusted_metal_block": "Block of Slightly Rusted Metal",
+  "block.prehistoric_pixels.half_rusted_metal_block": "Block of Half Rusted Metal",
+  "block.prehistoric_pixels.waxed_block_of_metal": "Waxed Block of Metal",
+  "block.prehistoric_pixels.waxed_slightly_rusted_metal_block": "Waxed Block of Slightly Rusted Metal",
+  "block.prehistoric_pixels.waxed_half_rusted_metal_block": "Waxed Block of Half Rusted Metal",
+  "block.prehistoric_pixels.rusted_metal_block": "Block of Rusted Metal",
+  "block.prehistoric_pixels.deepslate_metal_ore": "Deepslate Metal Ore",
+  "block.prehistoric_pixels.metal_ore": "Metal Ore",
+  "block.prehistoric_pixels.metal_bars": "Metal Bars",
+  "block.prehistoric_pixels.metal_button": "Metal Button",
+  "block.prehistoric_pixels.metal_pressure_plate": "Metal Pressure Plate",
+  "block.prehistoric_pixels.metal_door": "Metal Door",
+  "block.prehistoric_pixels.metal_trapdoor": "Metal Trapdoor",
+  "block.prehistoric_pixels.metal_lamp": "Metal Lamp",
+
+  "block.prehistoric_pixels.exposed_fossil": "Exposed Fossil",
+  "block.prehistoric_pixels.deepslate_exposed_fossil": "Deepslate Exposed Fossil",
+  "block.prehistoric_pixels.pile_of_fossils": "Pile of Fossils",
+
+  "itemGroup.prehistoric_pixels_tab": "Prehistoric Pixels"
+}

@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "fossil",
+  "ingredients": [
+    {
+      "item": "prehistoric_pixels:pile_of_fossils"
+    }
+  ],
+  "result": {
+    "item": "prehistoric_pixels:fossil",
+    "count": 9
+  }
+}

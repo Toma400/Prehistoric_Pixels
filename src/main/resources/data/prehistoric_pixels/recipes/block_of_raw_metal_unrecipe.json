@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "raw_metal",
+  "ingredients": [
+    {
+      "item": "prehistoric_pixels:block_of_raw_metal"
+    }
+  ],
+  "result": {
+    "item": "prehistoric_pixels:raw_metal",
+    "count": 9
+  }
+}

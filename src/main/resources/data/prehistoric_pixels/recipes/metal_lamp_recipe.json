@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "block_of_metal",
+  "pattern": [
+    "RRR",
+    "RTR",
+    "RRR"
+  ],
+  "key": {
+    "R": {
+      "item": "prehistoric_pixels:metal_ingot"
+    },
+    "T": {
+      "item": "minecraft:torch"
+    }
+  },
+  "result": {
+    "item": "prehistoric_pixels:metal_lamp",
+    "count": 1
+  }
+}
