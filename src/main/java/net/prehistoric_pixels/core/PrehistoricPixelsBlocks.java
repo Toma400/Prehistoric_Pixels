@@ -14,8 +14,7 @@ import net.prehistoric_pixels.PrehistoricPixels;
 import java.util.function.Supplier;
 
 public class PrehistoricPixelsBlocks {
-    public static final DeferredRegister<Block> BLOCKS =
-            DeferredRegister.create(ForgeRegistries.BLOCKS, PrehistoricPixels.MOD_ID);
+    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, PrehistoricPixels.MOD_ID);
 
     //METAL
     public static final RegistryObject<Block> BLOCK_OF_RAW_METAL = registerBlock("block_of_raw_metal",

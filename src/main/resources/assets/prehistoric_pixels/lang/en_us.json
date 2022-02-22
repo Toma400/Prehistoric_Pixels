@@ -28,5 +28,9 @@
   "block.prehistoric_pixels.deepslate_exposed_fossil": "Deepslate Exposed Fossil",
   "block.prehistoric_pixels.pile_of_fossils": "Pile of Fossils",
 
+  "entity.prehistoric_pixels.stegosaurus": "Stegosaurus",
+
+  "item.prehistoric_pixels.stegosaurus_spawn_egg": "Stegosaurus Spawn Egg",
+
   "itemGroup.prehistoric_pixels_tab": "Prehistoric Pixels"
 }

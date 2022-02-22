@@ -12,6 +12,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.prehistoric_pixels.core.PrehistoricPixelsBlocks;
+import net.prehistoric_pixels.core.PrehistoricPixelsEntityTypes;
 import net.prehistoric_pixels.core.PrehistoricPixelsItems;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -31,6 +32,7 @@ public class PrehistoricPixels
 
         PrehistoricPixelsItems.register(eventBus);
         PrehistoricPixelsBlocks.register(eventBus);
+        PrehistoricPixelsEntityTypes.register(eventBus);
 
         eventBus.addListener(this::setup);
         eventBus.addListener(this::setupClient);

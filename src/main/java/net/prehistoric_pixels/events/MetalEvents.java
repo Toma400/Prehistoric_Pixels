@@ -24,17 +24,17 @@ public class MetalEvents {
                 if(blockstate.getBlock() == PrehistoricPixelsBlocks.BLOCK_OF_METAL.get()){
                     itemstack.shrink(1);
                     event.getWorld().setBlock(blockpos, PrehistoricPixelsBlocks.WAXED_BLOCK_OF_METAL.get().defaultBlockState(), 1);
-                    event.getWorld().addParticle(ParticleTypes.WAX_ON, (boolean) true, blockpos.getX(), blockpos.getY() + 1, blockpos.getZ(), 3, 3, 3);
+                    event.getWorld().addParticle(ParticleTypes.WAX_ON, true, blockpos.getX(), blockpos.getY() + 1, blockpos.getZ(), 3, 3, 3);
                 }
                 if(blockstate.getBlock() == PrehistoricPixelsBlocks.SLIGHTLY_RUSTED_METAL_BLOCK.get()){
                     itemstack.shrink(1);
                     event.getWorld().setBlock(blockpos, PrehistoricPixelsBlocks.WAXED_SLIGHTLY_RUSTED_METAL_BLOCK.get().defaultBlockState(), 1);
-                    event.getWorld().addParticle(ParticleTypes.WAX_ON, (boolean) true, blockpos.getX(), blockpos.getY() + 1, blockpos.getZ(), 3, 3, 3);
+                    event.getWorld().addParticle(ParticleTypes.WAX_ON, true, blockpos.getX(), blockpos.getY() + 1, blockpos.getZ(), 3, 3, 3);
                 }
                 if(blockstate.getBlock() == PrehistoricPixelsBlocks.HALF_RUSTED_METAL_BLOCK.get()){
                     itemstack.shrink(1);
                     event.getWorld().setBlock(blockpos, PrehistoricPixelsBlocks.WAXED_HALF_RUSTED_METAL_BLOCK.get().defaultBlockState(), 1);
-                    event.getWorld().addParticle(ParticleTypes.WAX_ON, (boolean) true, blockpos.getX(), blockpos.getY() + 1, blockpos.getZ(), 3, 3, 3);
+                    event.getWorld().addParticle(ParticleTypes.WAX_ON, true, blockpos.getX(), blockpos.getY() + 1, blockpos.getZ(), 3, 3, 3);
                 }
             }
         }

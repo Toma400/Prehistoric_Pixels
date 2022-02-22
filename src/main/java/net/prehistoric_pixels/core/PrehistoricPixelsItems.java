@@ -1,12 +1,15 @@
 package net.prehistoric_pixels.core;
 
+import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.prehistoric_pixels.PrehistoricPixels;
+import net.prehistoric_pixels.item.PPSpawnEggItem;
 
 public class PrehistoricPixelsItems {
     public static final DeferredRegister<Item> ITEMS =
@@ -26,6 +29,10 @@ public class PrehistoricPixelsItems {
             () -> new Item(new Item.Properties().tab(PrehistoricPixelsTab.PREHISTORIC_PIXELS_TAB)));
     public static final RegistryObject<Item> CORDAITES_FOSSIL = ITEMS.register("cordaites_fossil",
             () -> new Item(new Item.Properties().tab(PrehistoricPixelsTab.PREHISTORIC_PIXELS_TAB)));
+
+    public static final RegistryObject<Item> STEGOSAURUS_SPAWN_EGG = ITEMS.register("stegosaurus_spawn_egg",
+            () -> new PPSpawnEggItem(PrehistoricPixelsEntityTypes.STEGOSAURUS, 1574400, 8216639,
+                    new Item.Properties().tab(PrehistoricPixelsTab.PREHISTORIC_PIXELS_TAB)));
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
