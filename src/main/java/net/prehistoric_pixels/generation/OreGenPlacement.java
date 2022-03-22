@@ -12,5 +12,4 @@ public class OreGenPlacement {
 
     public static final PlacedFeature EXPOSED_FOSSIL_PLACED = PlacementUtils.register("exposed_fossil_placed",
             OreGenSettings.EXPOSED_FOSSIL.placed(CustomOrePlacements.commonOrePlacement(9, HeightRangePlacement.uniform(VerticalAnchor.aboveBottom(-10), VerticalAnchor.aboveBottom(120)))));
-
 }
