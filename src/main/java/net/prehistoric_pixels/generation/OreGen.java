@@ -1,5 +1,6 @@
 package net.prehistoric_pixels.generation;
 
+import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.biome.Biome;
@@ -18,10 +19,10 @@ public class OreGen {
         ResourceKey<Biome> key = ResourceKey.create(Registry.BIOME_REGISTRY, event.getName());
         Set<BiomeDictionary.Type> types = BiomeDictionary.getTypes(key);
 
-        List<Supplier<PlacedFeature>> base =
+        List<Holder<PlacedFeature>> base =
                 event.getGeneration().getFeatures(GenerationStep.Decoration.UNDERGROUND_ORES);
 
-        base.add(() -> OreGenPlacement.METAL_ORE_PLACED);
-        base.add(() -> OreGenPlacement.EXPOSED_FOSSIL_PLACED);
+        base.add(OreGenPlacement.METAL_ORE_PLACED);
+        base.add(OreGenPlacement.EXPOSED_FOSSIL_PLACED);
     }
 }
