@@ -2,16 +2,13 @@ package net.prehistoric_pixels.entity;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.world.CompoundContainer;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -21,27 +18,22 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
-import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.OwnerHurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.OwnerHurtTargetGoal;
 import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.animal.Wolf;
-import net.minecraft.world.entity.monster.Creeper;
-import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.prehistoric_pixels.core.PrehistoricPixelsEntityTypes;
 import net.prehistoric_pixels.entity.ai.goals.PPMoveToTargetGoal;
 import net.prehistoric_pixels.entity.ai.goals.PPTameableAttackGoal;
 import net.prehistoric_pixels.entity.ai.goals.StegosaurusFindNearbyMonsterGoal;
+import net.prehistoric_pixels.entity.ai.goals.StegosaurusFollowParentGoal;
 import net.prehistoric_pixels.entity.helpers.PPTamableEntity;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib3.core.IAnimatable;
@@ -70,7 +62,7 @@ public class StegosaurusEntity extends PPTamableEntity implements IAnimatable {
         return Mob.createLivingAttributes()
                 .add(Attributes.ARMOR, 4)
                 .add(Attributes.ATTACK_SPEED, 69420)
-                .add(Attributes.ATTACK_KNOCKBACK, 4D)
+                .add(Attributes.ATTACK_KNOCKBACK, 1.5D)
                 .add(Attributes.ATTACK_DAMAGE, 8)
                 .add(Attributes.MAX_HEALTH, 55)
                 .add(Attributes.MOVEMENT_SPEED, 0.25)
@@ -94,9 +86,10 @@ public class StegosaurusEntity extends PPTamableEntity implements IAnimatable {
         this.targetSelector.addGoal(2, new OwnerHurtTargetGoal(this));
         this.goalSelector.addGoal(2, new SitWhenOrderedToGoal(this));
         this.goalSelector.addGoal(3, new FollowOwnerGoal(this, 1.2, 10.0F, 2.0F, false));
-        this.goalSelector.addGoal(4, new FollowParentGoal(this, 1.2));
+        this.goalSelector.addGoal(4, new StegosaurusFollowParentGoal(this, 1.2));
         this.goalSelector.addGoal(7, new BreedGoal(this, 1.0D));
 
+        /*
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true) {
             @Override
             public boolean canUse() {
@@ -111,6 +104,7 @@ public class StegosaurusEntity extends PPTamableEntity implements IAnimatable {
                 return super.canUse();
             }
         });
+        */
         this.targetSelector.addGoal(2, new StegosaurusFindNearbyMonsterGoal(this));
         this.targetSelector.addGoal(3, (new HurtByTargetGoal(this)).setAlertOthers());
     }
@@ -119,8 +113,10 @@ public class StegosaurusEntity extends PPTamableEntity implements IAnimatable {
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_146746_, DifficultyInstance p_146747_, MobSpawnType p_146748_, @Nullable SpawnGroupData p_146749_, @Nullable CompoundTag p_146750_) {
 
-        if (p_146746_.getRandom().nextBoolean()) {
+        if (Math.random() < 0.4) {
             this.turnIntoAdult();
+        } else if (Math.random() < 0.2) {
+            this.setBaby(true);
         }
 
         return super.finalizeSpawn(p_146746_, p_146747_, p_146748_, p_146749_, p_146750_);
@@ -134,7 +130,7 @@ public class StegosaurusEntity extends PPTamableEntity implements IAnimatable {
         this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(70.0D);
         this.setHealth(70.0F);
 
-        this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(8.0D);
+        this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(8.0D);
     }
 
     /**
@@ -180,7 +176,7 @@ public class StegosaurusEntity extends PPTamableEntity implements IAnimatable {
         ItemStack itemstack = pPlayer.getItemInHand(pHand);
         Item item = itemstack.getItem();
         if (this.level.isClientSide) {
-            boolean flag = this.isOwnedBy(pPlayer) || this.isTame() || itemstack.is(Items.BONE) && !this.isTame();
+            boolean flag = this.isOwnedBy(pPlayer) || this.isTame() || this.isFood(itemstack) && !this.isTame();
             return flag ? InteractionResult.CONSUME : InteractionResult.PASS;
         } else {
             if (this.isTame()) {
@@ -189,16 +185,23 @@ public class StegosaurusEntity extends PPTamableEntity implements IAnimatable {
                         itemstack.shrink(1);
                     }
 
-                    if (!this.isBaby() && !this.isFullAdult()) {
-                        timeBeforeFullAdultGrow = timeBeforeFullAdultGrow + 20;
-                    }
-
-                    this.heal((float)item.getFoodProperties().getNutrition());
+                    this.heal(2.0F + (float) this.getRandom().nextInt(2));
                     this.gameEvent(GameEvent.MOB_INTERACT, this.eyeBlockPosition());
                     return InteractionResult.SUCCESS;
                 }
 
-            } else if (this.isFood(itemstack) && !this.isBaby()) {
+                if (this.isFood(itemstack) && !this.isBaby() && !this.isFullAdult()) {
+
+                    if (!pPlayer.getAbilities().instabuild) {
+                        itemstack.shrink(1);
+                    }
+
+                    timeBeforeFullAdultGrow = timeBeforeFullAdultGrow + 20;
+                    this.gameEvent(GameEvent.MOB_INTERACT, this.eyeBlockPosition());
+                    return InteractionResult.SUCCESS;
+                }
+
+            } else if (this.isFood(itemstack) && this.isBaby()) {
                 if (!pPlayer.getAbilities().instabuild) {
                     itemstack.shrink(1);
                 }
@@ -221,8 +224,7 @@ public class StegosaurusEntity extends PPTamableEntity implements IAnimatable {
     }
 
     public boolean isFood(ItemStack pStack) {
-        Item item = pStack.getItem();
-        return ItemTags.getAllTags().getTagOrEmpty(ItemTags.LEAVES.getName()).contains(item);
+        return pStack.is(ItemTags.LEAVES);
     }
 
     public StegosaurusEntity getBreedOffspring(ServerLevel p_149088_, AgeableMob p_149089_) {
