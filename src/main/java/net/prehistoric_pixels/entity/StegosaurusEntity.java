@@ -2,6 +2,7 @@ package net.prehistoric_pixels.entity;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -21,10 +22,12 @@ import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.OwnerHurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.OwnerHurtTargetGoal;
 import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.animal.Wolf;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
@@ -62,7 +65,7 @@ public class StegosaurusEntity extends PPTamableEntity implements IAnimatable {
         return Mob.createLivingAttributes()
                 .add(Attributes.ARMOR, 4)
                 .add(Attributes.ATTACK_SPEED, 69420)
-                .add(Attributes.ATTACK_KNOCKBACK, 1.5D)
+                .add(Attributes.ATTACK_KNOCKBACK, 5.5D)
                 .add(Attributes.ATTACK_DAMAGE, 8)
                 .add(Attributes.MAX_HEALTH, 55)
                 .add(Attributes.MOVEMENT_SPEED, 0.25)
@@ -77,15 +80,15 @@ public class StegosaurusEntity extends PPTamableEntity implements IAnimatable {
         this.goalSelector.addGoal(1, new PPTameableAttackGoal(this, 19, 7));
         this.goalSelector.addGoal(1, new PPMoveToTargetGoal(this, 1.0F, 8));
 
-        this.goalSelector.addGoal(3, new RandomLookAroundGoal(this));
-        this.goalSelector.addGoal(3, new LookAtPlayerGoal(this, Player.class, 30.0F));
-        this.goalSelector.addGoal(4, new WaterAvoidingRandomStrollGoal(this, 1.0D));
+        this.goalSelector.addGoal(2, new RandomLookAroundGoal(this));
+        this.goalSelector.addGoal(2, new LookAtPlayerGoal(this, Player.class, 30.0F));
+        this.goalSelector.addGoal(3, new RandomStrollGoal(this, 1.0D));
         this.goalSelector.addGoal(5, new FloatGoal(this));
 
         this.targetSelector.addGoal(1, new OwnerHurtByTargetGoal(this));
         this.targetSelector.addGoal(2, new OwnerHurtTargetGoal(this));
         this.goalSelector.addGoal(2, new SitWhenOrderedToGoal(this));
-        this.goalSelector.addGoal(3, new FollowOwnerGoal(this, 1.2, 10.0F, 2.0F, false));
+        this.goalSelector.addGoal(2, new FollowOwnerGoal(this, 1.2, 10.0F, 2.0F, false));
         this.goalSelector.addGoal(4, new StegosaurusFollowParentGoal(this, 1.2));
         this.goalSelector.addGoal(7, new BreedGoal(this, 1.0D));
 
@@ -159,6 +162,15 @@ public class StegosaurusEntity extends PPTamableEntity implements IAnimatable {
                 pAmount = (pAmount + 1.0F) / 2.0F;
             }
 
+            // Debug
+            if (entity != null) {
+                if (entity instanceof Player player) {
+                    if (player.getMainHandItem().is(Items.DEBUG_STICK)) {
+                        player.sendMessage(new TextComponent("Time before full adult: " + timeBeforeFullAdultGrow), player.getUUID());
+                    }
+                }
+            }
+
             return super.hurt(pSource, pAmount);
         }
     }
@@ -180,14 +192,32 @@ public class StegosaurusEntity extends PPTamableEntity implements IAnimatable {
             return flag ? InteractionResult.CONSUME : InteractionResult.PASS;
         } else {
             if (this.isTame()) {
-                if (this.isFood(itemstack) && this.getHealth() < this.getMaxHealth()) {
-                    if (!pPlayer.getAbilities().instabuild) {
-                        itemstack.shrink(1);
+                if (this.isFood(itemstack)) {
+                    if (this.getHealth() < this.getMaxHealth()) {
+                        if (!pPlayer.getAbilities().instabuild) {
+                            itemstack.shrink(1);
+                        }
+
+                        this.heal(2.0F + (float) this.getRandom().nextInt(2));
+                        this.gameEvent(GameEvent.MOB_INTERACT, this.eyeBlockPosition());
+                        return InteractionResult.SUCCESS;
+                    } else {
+                        if (!pPlayer.getAbilities().instabuild) {
+                            itemstack.shrink(1);
+                        }
+
+                        this.timeBeforeFullAdultGrow += 40 + random.nextInt(60);
                     }
 
-                    this.heal(2.0F + (float) this.getRandom().nextInt(2));
-                    this.gameEvent(GameEvent.MOB_INTERACT, this.eyeBlockPosition());
-                    return InteractionResult.SUCCESS;
+                } else {
+                    InteractionResult interactionresult = super.mobInteract(pPlayer, pHand);
+                    if ((!interactionresult.consumesAction() || this.isBaby()) && this.isOwnedBy(pPlayer)) {
+                        this.setOrderedToSit(!this.isOrderedToSit());
+                        this.jumping = false;
+                        this.navigation.stop();
+                        this.setTarget((LivingEntity)null);
+                        return InteractionResult.SUCCESS;
+                    }
                 }
 
                 if (this.isFood(itemstack) && !this.isBaby() && !this.isFullAdult()) {
@@ -228,14 +258,14 @@ public class StegosaurusEntity extends PPTamableEntity implements IAnimatable {
     }
 
     public StegosaurusEntity getBreedOffspring(ServerLevel p_149088_, AgeableMob p_149089_) {
-        StegosaurusEntity wolf = PrehistoricPixelsEntityTypes.STEGOSAURUS.get().create(p_149088_);
+        StegosaurusEntity stego = PrehistoricPixelsEntityTypes.STEGOSAURUS.get().create(p_149088_);
         UUID uuid = this.getOwnerUUID();
         if (uuid != null) {
-            wolf.setOwnerUUID(uuid);
-            wolf.setTame(true);
+            stego.setOwnerUUID(uuid);
+            stego.setTame(true);
         }
 
-        return wolf;
+        return stego;
     }
 
     public boolean canMate(Animal pOtherAnimal) {
@@ -290,12 +320,14 @@ public class StegosaurusEntity extends PPTamableEntity implements IAnimatable {
     @Override
     public void addAdditionalSaveData(CompoundTag compoundNBT) {
         super.addAdditionalSaveData(compoundNBT);
+        compoundNBT.putInt("timeBeforeFullAdult", this.timeBeforeFullAdultGrow);
         compoundNBT.putBoolean("isFullAdult", this.isFullAdult());
     }
 
     @Override
     public void readAdditionalSaveData(CompoundTag compoundNBT) {
         super.readAdditionalSaveData(compoundNBT);
+        this.timeBeforeFullAdultGrow = compoundNBT.getInt("timeBeforeFullAdult");
         this.setFullAdult(compoundNBT.getBoolean("isFullAdult"));
     }
 
@@ -310,6 +342,10 @@ public class StegosaurusEntity extends PPTamableEntity implements IAnimatable {
 
     // Geckolib Section
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
+        if (this.isInSittingPose()) {
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.model.sit", true));
+            return PlayState.CONTINUE;
+        }
         if (this.getAttacking()) {
             event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.model.attack", true));
             return PlayState.CONTINUE;
